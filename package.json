@@ -1,0 +1,25 @@
+{
+  "name": "rollup-lib-template",
+  "version": "0.1.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "rollup -c --environment NODE_ENV:production",
+    "dev": "rollup -c -w --environment NODE_ENV:development"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.2.2",
+    "@babel/preset-env": "^7.2.3",
+    "rollup": "^0.68.1",
+    "rollup-plugin-babel": "^4.1.0",
+    "rollup-plugin-commonjs": "^9.2.0",
+    "rollup-plugin-eslint": "^5.0.0",
+    "rollup-plugin-node-resolve": "^4.0.0",
+    "rollup-plugin-uglify": "^6.0.0"
+  },
+  "keywords": [
+    "rollup"
+  ],
+  "author": "lanyue",
+  "license": "MIT"
+}
