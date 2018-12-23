@@ -20,7 +20,7 @@ module.exports = {
     {
       // window.$m
       name: '$m',
-      file: 'dist/bundle.umd.js',
+      file: isProduction ? 'dist/bundle.min.js' : 'dist/bundle.js',
       format: 'umd',
       banner: banner,
       sourcemap: false
