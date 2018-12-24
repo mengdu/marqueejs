@@ -9,6 +9,9 @@ const sleep = (time) => {
   })
 }
 
-const page = async name => await sleep()
+const page = async name => {
+  const res = await sleep()
+  return res
+}
 
 export default page
