@@ -9,36 +9,46 @@ const banner =
   '/*!\n' +
   ' * Build version v' + pkg.version + '\n' +
   ' * Create by lanyue@qq.com\n' +
-  ' * Created at ' + new Date() +'\n' +
+  ' * Created at ' + new Date() + '\n' +
   ' */'
 
 const isProduction = process.env.NODE_ENV === 'production'
 
-module.exports = {
-  input: 'src/index.js',
-  output: [
-    {
-      // window.$m
-      name: '$m',
-      file: isProduction ? 'dist/bundle.min.js' : 'dist/bundle.js',
-      format: 'umd',
-      banner: banner,
-      sourcemap: false
+module.exports = [
+  {
+    input: 'src/index.js',
+    output: [
+      {
+        // window.Marquee
+        name: 'Marquee',
+        file: isProduction ? 'dist/index.min.js' : 'dist/index.js',
+        format: 'umd',
+        banner: banner,
+        sourcemap: false
+      }
+      // { file: 'dist/index.cjs.js', format: 'cjs', banner: banner },
+      // { file: 'dist/index.esm.js', format: 'esm', banner: banner },
+      // { file: 'dist/index.amd.js', format: 'amd', banner: banner },
+      // { file: 'dist/index.iife.js', format: 'iife', name: 'Marquee', banner: banner }
+    ],
+    plugins: [
+      Eslint.eslint({
+        exclude: ['node_modules/**']
+      }),
+      resolve(),
+      commonjs(),
+      babel({
+        exclude: 'node_modules/**'
+      }),
+      (isProduction && Uglify.uglify())
+    ]
+  },
+  {
+    input: 'example/index.js',
+    output: {
+      file: 'example/js/index.js',
+      format: 'iife',
+      name: ''
     }
-    // { file: 'dist/bundle.cjs.js', format: 'cjs' },
-    // { file: 'dist/bundle.esm.js', format: 'esm' },
-    // { file: 'dist/bundle.amd.js', format: 'amd' },
-    // { file: 'dist/bundle.iife.js', format: 'iife', name: '$m' }
-  ],
-  plugins: [
-    Eslint.eslint({
-      exclude: ['node_modules/**']
-    }),
-    resolve(),
-    commonjs(),
-    babel({
-      exclude: 'node_modules/**'
-    }),
-    (isProduction && Uglify.uglify())
-  ]
-}
+  }
+]
