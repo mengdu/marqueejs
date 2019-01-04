@@ -30,4 +30,10 @@ window.addEventListener('load', function () {
     setp: 1,
     direction: 'vertical'
   })
+
+  window.mq6 = new Marquee(marqueeList[5], marqueeTargetList[5], {
+    autoPlay: true,
+    setp: -1,
+    direction: 'vertical'
+  })
 })
