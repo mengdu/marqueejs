@@ -3,6 +3,7 @@ const commonjs = require('rollup-plugin-commonjs')
 const Eslint = require('rollup-plugin-eslint')
 const babel = require('rollup-plugin-babel')
 const Uglify = require('rollup-plugin-uglify')
+const style = require('rollup-plugin-style')
 const pkg = require('./package.json')
 
 const banner =
@@ -23,7 +24,7 @@ module.exports = [
         name: 'Marquee',
         file: isProduction ? 'dist/index.min.js' : 'dist/index.js',
         format: 'umd',
-        banner: banner,
+        // banner: banner,
         sourcemap: false
       }
       // { file: 'dist/index.cjs.js', format: 'cjs', banner: banner },
@@ -37,18 +38,40 @@ module.exports = [
       }),
       resolve(),
       commonjs(),
+      style(),
       babel({
         exclude: 'node_modules/**'
       }),
-      (isProduction && Uglify.uglify())
+      (isProduction && Uglify.uglify()),
+      {
+        name: 'banner',
+        renderChunk (code) {
+          return banner + '\n' + code
+        }
+      }
     ]
   },
   {
     input: 'example/index.js',
     output: {
-      file: 'example/js/index.js',
+      file: 'example/dist/js/index.js',
       format: 'iife',
       name: ''
+    },
+    plugins: [
+      style({
+        output: 'style'
+      })
+      // {
+      //   name: 'style',
+      //   transform: function (code, id) {
+      //     console.log(code, id)
+      //     return null
+      //   }
+      // }
+    ],
+    watch: {
+      clearScreen: false
     }
   }
 ]

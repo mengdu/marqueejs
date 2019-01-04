@@ -1,10 +1,13 @@
 /**
  * 滚动跑马灯
  * @param {Dom} box 盒子
- * @param {Dom} el 滚动盒子
- * @param {number} setp 步长，默认1，向左运动；负值会反向运动
- * @param {boolean} auto 是否自动开始
- * @param {number} start 开始值停留位置
+ * @param {Dom} target 滚动盒子
+ * @param {object} options 配置
+ * @param {number} options.setp 步长，默认1，向左运动；负值会反向运动
+ * @param {boolean} options.autoPlay 是否自动开始
+ * @param {number} options.start 开始值停留位置
+ * @param {number} options.direction 滚动方向，纵 vertical, 横 horizontal 默认 vertical
+ * @return {object} 返回 Marquee对象
  * **/
 
 const requestAnimationFrame = window.requestAnimationFrame
@@ -33,18 +36,20 @@ export default class Marquee {
     if (!options.moveing) return
 
     options.moveValue += options.setp
+    const attr = options.direction === 'vertical' ? 'offsetHeight' : 'offsetWidth'
     // ←
     if (options.setp > 0) {
-      if (options.moveValue > options.target.offsetWidth) {
-        options.moveValue = -options.box.offsetWidth
+      if (options.moveValue > options.target[attr]) {
+        options.moveValue = -options.box[attr]
       }
     } else {
-      if (options.moveValue < -options.box.offsetWidth) {
-        options.moveValue = options.target.offsetWidth
+      if (options.moveValue < -options.box[attr]) {
+        options.moveValue = options.target[attr]
       }
     }
 
-    options.target.style.transform = `translateX(${-options.moveValue}px)`
+    options.target.style.transform = options.direction === 'vertical' ? `translateY(${-options.moveValue}px)` : `translateX(${-options.moveValue}px)`
+
     options.clock = requestAnimationFrame(this.marquee.bind(this))
   }
 
@@ -61,5 +66,13 @@ export default class Marquee {
   reset () {
     this.options.target.style.transform = ''
     this.options.moveValue = 0
+  }
+
+  show () {
+    this.options.box.style.display = 'block'
+  }
+
+  hide () {
+    this.options.box.style.display = 'none'
   }
 }

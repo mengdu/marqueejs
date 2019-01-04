@@ -1,18 +1,33 @@
 import Marquee from '../src/index'
+import './index.css'
 
 window.addEventListener('load', function () {
   const marqueeList = document.getElementsByClassName('marquee')
   const marqueeTargetList = document.getElementsByClassName('marquee-target')
-  const instances = []
 
-  for (let i = 0; i < marqueeList.length; i++) {
-    const instance = new Marquee(marqueeList[i], marqueeTargetList[i], {
-      autoPlay: true,
-      setp: 1
-    })
+  window.mq1 = new Marquee(marqueeList[0], marqueeTargetList[0], {
+    autoPlay: true,
+    setp: 1
+  })
 
-    instances.push(instance)
-  }
+  window.mq2 = new Marquee(marqueeList[1], marqueeTargetList[1], {
+    autoPlay: true,
+    setp: 0.5
+  })
 
-  console.log(instances)
+  window.mq3 = new Marquee(marqueeList[2], marqueeTargetList[2], {
+    autoPlay: true,
+    setp: 2
+  })
+
+  window.mq4 = new Marquee(marqueeList[3], marqueeTargetList[3], {
+    autoPlay: true,
+    setp: -1
+  })
+
+  window.mq5 = new Marquee(marqueeList[4], marqueeTargetList[4], {
+    autoPlay: true,
+    setp: 1,
+    direction: 'vertical'
+  })
 })

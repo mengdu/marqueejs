@@ -1,0 +1,10 @@
+.marquee {
+  overflow: hidden;
+  background: #e2e7ea;
+  margin-bottom: 5px;
+  color: #2C2E3B;
+  padding: 0 15px;
+}
+.marquee .marquee-target {
+  display: inline-block;
+}

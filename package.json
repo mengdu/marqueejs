@@ -6,6 +6,7 @@
   "scripts": {
     "build": "rollup -c --environment NODE_ENV:production",
     "dev": "rollup -c -w --environment NODE_ENV:development",
+    "compile": "rollup -c",
     "lint": "eslint src",
     "lintfix": "eslint src --fix"
   },
