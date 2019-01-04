@@ -20,8 +20,9 @@ const mq = new Marquee(boxEl, targetEl, options)
 
 ## 方法
 
-+ **start** 开始
-+ **stop** 停止
-+ **reset** 重置
-+ **show** 显示
-+ **hide** 隐藏
++ **start()** 开始
++ **stop()** 停止
++ **reset()** 重置
++ **show()** 显示
++ **hide()** 隐藏
++ **updateContent(html, append)** 更新target元素的内容
