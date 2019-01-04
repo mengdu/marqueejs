@@ -1,6 +1,6 @@
 # marqueejs
 
-前端滚动字幕库
+跑马灯，滚动字幕
 
 [在线例子](https://mengdu.github.io/marqueejs/example/index.html)
 
@@ -16,7 +16,7 @@ const mq = new Marquee(boxEl, targetEl, options)
 + **options.setp** `number` 滚动步长，默认 1（px）
 + **options.autoPlay** `boolean` 自动开始滚动， 默认 false
 + **options.start** `number` 开始值停留位置 0（px）
-+ **options.direction** ` 滚动方向，纵 vertical, 横 horizontal 默认 vertical
++ **options.direction** 滚动方向，纵 vertical, 横 horizontal 默认 vertical
 
 ## 方法
 
