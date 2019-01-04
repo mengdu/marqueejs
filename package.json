@@ -2,7 +2,7 @@
   "name": "marqueejs",
   "version": "0.1.0",
   "description": "",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
     "build": "rollup -c --environment NODE_ENV:production",
     "dev": "rollup -c -w --environment NODE_ENV:development",
@@ -28,7 +28,8 @@
     "rollup-plugin-uglify": "^6.0.0"
   },
   "keywords": [
-    "rollup"
+    "marquee",
+    "marqueejs"
   ],
   "author": "lanyue",
   "license": "MIT"
