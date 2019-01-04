@@ -77,4 +77,8 @@ export default class Marquee {
   hide () {
     this.options.box.style.display = 'none'
   }
+
+  updateContent (html, append = false) {
+    this.options.target.innerHTML = append ? this.options.target.innerHTML + html : html
+  }
 }
