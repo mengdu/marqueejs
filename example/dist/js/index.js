@@ -71,6 +71,8 @@
     }
 
     start () {
+      // fix 多次调用start引起问题
+      cancelAnimationFrame(this.options.clock);
       this.options.clock = requestAnimationFrame(this.marquee.bind(this));
       this.options.moveing = true;
     }
@@ -91,6 +93,10 @@
 
     hide () {
       this.options.box.style.display = 'none';
+    }
+
+    updateContent (html, append = false) {
+      this.options.target.innerHTML = append ? this.options.target.innerHTML + html : html;
     }
   }
 

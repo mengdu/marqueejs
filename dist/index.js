@@ -1,7 +1,7 @@
 /*!
  * Build version v0.1.0
  * Create by lanyue@qq.com
- * Created at Fri Jan 04 2019 11:44:33 GMT+0800 (中国标准时间)
+ * Created at Fri Jan 04 2019 20:02:05 GMT+0800 (中国标准时间)
  */
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
@@ -99,6 +99,8 @@
     }, {
       key: "start",
       value: function start() {
+        // fix 多次调用start引起问题
+        cancelAnimationFrame(this.options.clock);
         this.options.clock = requestAnimationFrame(this.marquee.bind(this));
         this.options.moveing = true;
       }
@@ -123,6 +125,12 @@
       key: "hide",
       value: function hide() {
         this.options.box.style.display = 'none';
+      }
+    }, {
+      key: "updateContent",
+      value: function updateContent(html) {
+        var append = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+        this.options.target.innerHTML = append ? this.options.target.innerHTML + html : html;
       }
     }]);
 
