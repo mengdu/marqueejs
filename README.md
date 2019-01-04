@@ -2,6 +2,8 @@
 
 前端滚动字幕库
 
+[在线例子](https://mengdu.github.io/marqueejs/example/index.html)
+
 ```js
 const mq = new Marquee(boxEl, targetEl, options)
 ```
