@@ -54,6 +54,8 @@ export default class Marquee {
   }
 
   start () {
+    // fix 多次调用start引起问题
+    cancelAnimationFrame(this.options.clock)
     this.options.clock = requestAnimationFrame(this.marquee.bind(this))
     this.options.moveing = true
   }
