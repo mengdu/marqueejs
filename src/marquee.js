@@ -11,51 +11,55 @@ const requestAnimationFrame = window.requestAnimationFrame
 const cancelAnimationFrame = window.cancelAnimationFrame
 
 export default class Marquee {
-  constructor (box, target, { setp = 1, autoPlay, start = 0 }) {
+  constructor (box, target, { setp = 1, autoPlay, start = 0, direction = 'horizontal' }) {
     if (!box || !target) throw new Error('options.box and options.target is required.')
-    this.moveing = false
-    this.clock = null
-    this.moveValue = start
-    this.box = box
-    this.target = target
-    this.setp = setp
+    this.options = {
+      moveing: false,
+      clock: null,
+      moveValue: start,
+      box: box,
+      target: target,
+      setp: setp,
+      direction: direction // 纵 vertical, 横 horizontal
+    }
 
     // set start position
-    this.target.style.transform = `translateX(${-this.moveValue}px)`
+    this.options.target.style.transform = `translateX(${-this.options.moveValue}px)`
     if (autoPlay) this.start()
   }
 
   marquee () {
-    if (!this.moveing) return
+    const options = this.options
+    if (!options.moveing) return
 
-    this.moveValue += this.setp
+    options.moveValue += options.setp
     // ←
-    if (this.setp > 0) {
-      if (this.moveValue > this.target.offsetWidth) {
-        this.moveValue = -this.box.offsetWidth
+    if (options.setp > 0) {
+      if (options.moveValue > options.target.offsetWidth) {
+        options.moveValue = -options.box.offsetWidth
       }
     } else {
-      if (this.moveValue < -this.box.offsetWidth) {
-        this.moveValue = this.target.offsetWidth
+      if (options.moveValue < -options.box.offsetWidth) {
+        options.moveValue = options.target.offsetWidth
       }
     }
 
-    this.target.style.transform = `translateX(${-this.moveValue}px)`
-    this.clock = requestAnimationFrame(this.marquee.bind(this))
+    options.target.style.transform = `translateX(${-options.moveValue}px)`
+    options.clock = requestAnimationFrame(this.marquee.bind(this))
   }
 
   start () {
-    this.clock = requestAnimationFrame(this.marquee.bind(this))
-    this.moveing = true
+    this.options.clock = requestAnimationFrame(this.marquee.bind(this))
+    this.options.moveing = true
   }
 
   stop () {
-    cancelAnimationFrame(this.clock)
-    this.moveing = false
+    cancelAnimationFrame(this.options.clock)
+    this.options.moveing = false
   }
 
   reset () {
-    this.target.style.transform = ''
-    this.moveValue = 0
+    this.options.target.style.transform = ''
+    this.options.moveValue = 0
   }
 }
