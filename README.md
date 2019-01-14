@@ -25,4 +25,5 @@ const mq = new Marquee(boxEl, targetEl, options)
 + **reset()** 重置
 + **show()** 显示
 + **hide()** 隐藏
++ **updateLayout()** 更新布局信息（内部已经做 window.onresize 和 内容改变监听更新）
 + **updateContent(html, append)** 更新target元素的内容
