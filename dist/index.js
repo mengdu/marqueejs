@@ -1,7 +1,7 @@
 /*!
- * Build version v0.1.0
+ * Build version v0.1.1
  * Create by lanyue@qq.com
- * Created at Fri Jan 04 2019 20:02:05 GMT+0800 (中国标准时间)
+ * Created at Mon Jan 14 2019 10:52:08 GMT+0800 (中国标准时间)
  */
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
@@ -60,19 +60,32 @@
       _classCallCheck(this, Marquee);
 
       if (!box || !target) throw new Error('options.box and options.target is required.');
-      this.options = {
-        moveing: false,
-        clock: null,
-        moveValue: start,
-        box: box,
-        target: target,
-        setp: setp,
-        direction: direction // 纵 vertical, 横 horizontal
-        // set start position
+      Object.defineProperty(this, 'options', {
+        value: {
+          moveing: false,
+          clock: null,
+          moveValue: start,
+          box: box,
+          target: target,
+          setp: setp,
+          direction: direction // 纵 vertical, 横 horizontal
 
-      };
+        }
+      });
+      Object.defineProperty(this, '_private', {
+        value: {
+          box: {},
+          target: {}
+        }
+      });
+      this.updateLayout(); // set start position
+
       this.options.target.style.transform = "translateX(".concat(-this.options.moveValue, "px)");
       if (autoPlay) this.start();
+      var that = this;
+      window.addEventListener('resize', function () {
+        that.updateLayout();
+      });
     }
 
     _createClass(Marquee, [{
@@ -84,17 +97,25 @@
         var attr = options.direction === 'vertical' ? 'offsetHeight' : 'offsetWidth'; // ←
 
         if (options.setp > 0) {
-          if (options.moveValue > options.target[attr]) {
-            options.moveValue = -options.box[attr];
+          if (options.moveValue > this._private.target[attr]) {
+            options.moveValue = -this._private.box[attr];
           }
         } else {
-          if (options.moveValue < -options.box[attr]) {
-            options.moveValue = options.target[attr];
+          if (options.moveValue < -this._private.box[attr]) {
+            options.moveValue = this._private.target[attr];
           }
         }
 
         options.target.style.transform = options.direction === 'vertical' ? "translateY(".concat(-options.moveValue, "px)") : "translateX(".concat(-options.moveValue, "px)");
         options.clock = requestAnimationFrame(this.marquee.bind(this));
+      }
+    }, {
+      key: "updateLayout",
+      value: function updateLayout() {
+        this._private.box.offsetHeight = this.options.box.offsetHeight;
+        this._private.box.offsetWidth = this.options.box.offsetWidth;
+        this._private.target.offsetHeight = this.options.target.offsetHeight;
+        this._private.target.offsetWidth = this.options.target.offsetWidth;
       }
     }, {
       key: "start",
@@ -130,7 +151,9 @@
       key: "updateContent",
       value: function updateContent(html) {
         var append = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
-        this.options.target.innerHTML = append ? this.options.target.innerHTML + html : html;
+        this.options.target.innerHTML = append ? this.options.target.innerHTML + html : html; // update style
+
+        this.updateLayout();
       }
     }]);
 

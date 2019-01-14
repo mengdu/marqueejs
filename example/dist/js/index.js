@@ -33,19 +33,37 @@
   class Marquee {
     constructor (box, target, { setp = 1, autoPlay, start = 0, direction = 'horizontal' }) {
       if (!box || !target) throw new Error('options.box and options.target is required.')
-      this.options = {
-        moveing: false,
-        clock: null,
-        moveValue: start,
-        box: box,
-        target: target,
-        setp: setp,
-        direction: direction // 纵 vertical, 横 horizontal
-      };
+
+      Object.defineProperty(this, 'options', {
+        value: {
+          moveing: false,
+          clock: null,
+          moveValue: start,
+          box: box,
+          target: target,
+          setp: setp,
+          direction: direction // 纵 vertical, 横 horizontal
+        }
+      });
+
+      Object.defineProperty(this, '_private', {
+        value: {
+          box: {},
+          target: {}
+        }
+      });
+
+      this.updateLayout();
 
       // set start position
       this.options.target.style.transform = `translateX(${-this.options.moveValue}px)`;
       if (autoPlay) this.start();
+
+      const that = this;
+
+      window.addEventListener('resize', function () {
+        that.updateLayout();
+      });
     }
 
     marquee () {
@@ -56,18 +74,26 @@
       const attr = options.direction === 'vertical' ? 'offsetHeight' : 'offsetWidth';
       // ←
       if (options.setp > 0) {
-        if (options.moveValue > options.target[attr]) {
-          options.moveValue = -options.box[attr];
+        if (options.moveValue > this._private.target[attr]) {
+          options.moveValue = -this._private.box[attr];
         }
       } else {
-        if (options.moveValue < -options.box[attr]) {
-          options.moveValue = options.target[attr];
+        if (options.moveValue < -this._private.box[attr]) {
+          options.moveValue = this._private.target[attr];
         }
       }
 
       options.target.style.transform = options.direction === 'vertical' ? `translateY(${-options.moveValue}px)` : `translateX(${-options.moveValue}px)`;
 
       options.clock = requestAnimationFrame(this.marquee.bind(this));
+    }
+
+    updateLayout () {
+      this._private.box.offsetHeight = this.options.box.offsetHeight;
+      this._private.box.offsetWidth = this.options.box.offsetWidth;
+
+      this._private.target.offsetHeight = this.options.target.offsetHeight;
+      this._private.target.offsetWidth = this.options.target.offsetWidth;
     }
 
     start () {
@@ -97,6 +123,8 @@
 
     updateContent (html, append = false) {
       this.options.target.innerHTML = append ? this.options.target.innerHTML + html : html;
+      // update style
+      this.updateLayout();
     }
   }
 
